@@ -10,10 +10,10 @@ dotenv.config();  // Load environment variables
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:3000', // Your frontend URL
-  methods: 'GET, POST, PUT, DELETE', // Allowed HTTP methods
-  allowedHeaders: 'Content-Type, Authorization', // Allowed headers
-  credentials: true // Allow cookies or credentials
+  origin: 'https://stamurai-frontend-bn3tx2ghl-rishi-sivarajus-projects.vercel.app',
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization',
+  credentials: true
 }));
 
 // 1. MongoDB Connection
