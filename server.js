@@ -8,29 +8,22 @@ const initializePassport = require("./config/passportConfig");
 
 dotenv.config();  // Load environment variables
 
-// const allowedOrigins = [
-//   'https://stamurai-frontend-gray.vercel.app',
-//   'https://stamurai-frontend-gray.vercel.app/login',
-//   'https://stamurai-frontend-gray.vercel.app/register',
-//   'https://stamurai-frontend-gray.vercel.app/dashboard',
-//   'https://stamurai-backend.vercel.app/auth/login',
-//   'https://stamurai-backend.vercel.app/auth/register',
-//   'https://stamurai-backend.vercel.app/me',
-//   'https://stamurai-backend.vercel.app/users',
-//   'https://stamurai-backend.vercel.app/tasks',
-//   'https://stamurai-backend.vercel.app/tasks/search',
-//   'https://stamurai-backend.vercel.app/notifications/unread',
-//   'https://stamurai-backend.vercel.app/notifications/:id/read',
-//   'https://stamurai-backend.vercel.app/tasks/:id',
-// ];
+const app = express();
 
-// // ─── CORS CONFIG ───────────────────────────────────────────────
-// app.use(cors({
-//   origin: allowedOrigins,
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-//   credentials: true
-// }));
+// ✅ Apply globally before any routes
+app.use(cors());
+app.use((req, res, next) => {
+  //allow access from every, elminate CORS
+  res.setHeader('Access-Control-Allow-Origin','*');
+  res.removeHeader('x-powered-by');
+  //set the allowed HTTP methods to be requested
+  res.setHeader('Access-Control-Allow-Methods','POST');
+  //headers clients can use in their requests
+  res.setHeader('Access-Control-Allow-Headers','Content-Type');
+  //allow request to continue and be handled by routes
+  next();
+});
+
 
 // 1. MongoDB Connection
 mongoose.connect("mongodb+srv://sivarajurishi:57BDRZdE0kvk7rAT@assignment.kuwqzsp.mongodb.net/", {
