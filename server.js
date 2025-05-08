@@ -1,132 +1,3 @@
-// const express = require("express");
-// const cors = require("cors");
-// const dotenv = require("dotenv");
-// const session = require("express-session");
-// const passport = require("passport");
-// const mongoose = require("mongoose");
-// const initializePassport = require("./config/passportConfig");
-
-// dotenv.config();  // Load environment variables
-
-// const app = express();
-
-// // ✅ Apply globally before any routes
-// const allowedOrigins = [
-//   'https://stamurai-frontend-gray.vercel.app',
-//   'https://stamurai-frontend-gray.vercel.app/login',
-//   'https://stamurai-frontend-gray.vercel.app/register',
-//   'https://stamurai-frontend-gray.vercel.app/dashboard',
-//   'https://stamurai-backend.vercel.app/auth/login',
-//   'https://stamurai-backend.vercel.app/auth/register',
-//   'https://stamurai-backend.vercel.app/me',
-//   'https://stamurai-backend.vercel.app/users',
-//   'https://stamurai-backend.vercel.app/tasks',
-//   'https://stamurai-backend.vercel.app/tasks/search',
-//   'https://stamurai-backend.vercel.app/notifications/unread',
-//   'https://stamurai-backend.vercel.app/notifications/:id/read',
-//   'https://stamurai-backend.vercel.app/tasks/:id',
-// ];
-
-// // First, apply cors using the default way
-// const corsOptions = {
-//   origin: 'https://stamurai-frontend-gray.vercel.app',
-//   credentials: true,
-// };
-
-// app.use(cors(corsOptions));
-
-
-// // Custom handling of headers
-// // app.use((req, res, next) => {
-// //   const origin = req.headers.origin;
-
-// //   // If origin matches, allow it
-// //   if (allowedOrigins.includes(origin)) {
-// //     res.setHeader('Access-Control-Allow-Origin', origin);
-// //     res.setHeader('Access-Control-Allow-Credentials', 'true'); // Moved inside origin match
-// //   }
-
-// //   // Always set method and headers
-// //   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-// //   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-// //   // Handle preflight OPTIONS requests
-// //   if (req.method === 'OPTIONS') {
-// //     return res.sendStatus(204); // No Content
-// //   }
-
-// //   next();
-// // });
-
-
-
-
-// // 1. MongoDB Connection
-// mongoose.connect("mongodb+srv://sivarajurishi:57BDRZdE0kvk7rAT@assignment.kuwqzsp.mongodb.net/", {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// })
-//     .then(() => console.log("🗄️  Connected to MongoDB"))
-//     .catch(err => {
-//         console.error("❌ MongoDB connection error:", err);
-//         process.exit(1);  // Exit process on connection failure
-//     });
-
-// // 2. Middlewares
-// app.use(express.json());  // To parse JSON bodies
-// app.use(session({
-//     secret: "testsecret",
-//     resave: false,
-//     saveUninitialized: false,
-// }));
-
-// // Initialize Passport.js for authentication
-// initializePassport(passport);
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// // 3. Routes
-// const authRoutes = require("./routes/auth");
-// app.use("/auth", authRoutes);
-
-// const taskRoutes = require("./routes/tasks");
-// app.use("/tasks", taskRoutes);
-
-// const notifications = require("./routes/notifications");
-// app.use("/notifications", notifications);
-
-// const userRoutes = require("./routes/users");
-// app.use("/users", userRoutes);
-
-
-
-// const isAuthenticated = (req, res, next) => {
-//     if (req.isAuthenticated()) {
-//         return next();
-//     }
-//     res.status(401).json({ message: 'Unauthorized' });
-// };
-
-// // Test Route (optional, can be removed later)
-// app.get("/", (req, res) => {
-//     res.send("Hello from Express backend");
-// });
-
-
-// app.get('/me', isAuthenticated, (req, res) => {
-//     res.json(req.user);
-//     console.log(req.user)// req.user is set by Passport after login
-// });
-
-// const PORT = process.env.PORT || 8080;
-
-// app.get("/tasks", (req, res) => {
-//     res.send("TASKS NEED TO BE DONE")
-// })
-// app.listen(PORT, () => {
-//     console.log(`🚀 Server running on port ${PORT}`);
-// });
-
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -135,11 +6,11 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const initializePassport = require("./config/passportConfig");
 
-dotenv.config(); // Load environment variables
+dotenv.config();  // Load environment variables
 
 const app = express();
 
-// ✅ Define allowed origins
+// ✅ Apply globally before any routes
 const allowedOrigins = [
   'https://stamurai-frontend-gray.vercel.app',
   'https://stamurai-frontend-gray.vercel.app/login',
@@ -156,17 +27,17 @@ const allowedOrigins = [
   'https://stamurai-backend.vercel.app/tasks/:id',
 ];
 
-// First, apply CORS using the default way
-// app.use(cors());
+// First, apply cors using the default way
+app.use(cors());
 
-// // Custom handling of headers
+// Custom handling of headers
 // app.use((req, res, next) => {
 //   const origin = req.headers.origin;
 
 //   // If origin matches, allow it
 //   if (allowedOrigins.includes(origin)) {
 //     res.setHeader('Access-Control-Allow-Origin', origin);
-//     res.setHeader('Access-Control-Allow-Credentials', 'true'); // Enable credentials
+//     res.setHeader('Access-Control-Allow-Credentials', 'true'); // Moved inside origin match
 //   }
 
 //   // Always set method and headers
@@ -180,44 +51,27 @@ const allowedOrigins = [
 
 //   next();
 // });
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
 
-  // If origin matches, allow it
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Credentials', 'true'); // Moved inside origin match
-  }
 
-  // Always set method and headers
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-  // Handle preflight OPTIONS requests
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(204); // No Content
-  }
-
-  next();
-});
 
 // 1. MongoDB Connection
 mongoose.connect("mongodb+srv://sivarajurishi:57BDRZdE0kvk7rAT@assignment.kuwqzsp.mongodb.net/", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 })
-  .then(() => console.log("🗄️  Connected to MongoDB"))
-  .catch(err => {
-    console.error("❌ MongoDB connection error:", err);
-    process.exit(1); // Exit process on connection failure
-  });
+    .then(() => console.log("🗄️  Connected to MongoDB"))
+    .catch(err => {
+        console.error("❌ MongoDB connection error:", err);
+        process.exit(1);  // Exit process on connection failure
+    });
 
 // 2. Middlewares
-app.use(express.json()); // To parse JSON bodies
+app.use(express.json());  // To parse JSON bodies
 app.use(session({
-  secret: "testsecret",
-  resave: false,
-  saveUninitialized: false,
+    secret: "testsecret",
+    resave: false,
+    saveUninitialized: false,
 }));
 
 // Initialize Passport.js for authentication
@@ -238,38 +92,32 @@ app.use("/notifications", notifications);
 const userRoutes = require("./routes/users");
 app.use("/users", userRoutes);
 
-// Authentication middleware to check if the user is logged in
+
+
 const isAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.status(401).json({ message: 'Unauthorized' }); // Return a JSON response for unauthorized requests
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.status(401).json({ message: 'Unauthorized' });
 };
 
 // Test Route (optional, can be removed later)
 app.get("/", (req, res) => {
-  res.send("Hello from Express backend");
+    res.send("Hello from Express backend");
 });
 
-// Example 'me' route for authenticated users
+
 app.get('/me', isAuthenticated, (req, res) => {
-  res.json(req.user); // Send the user object back as a JSON response
-  console.log(req.user); // req.user is set by Passport after login
-});
-
-// 4. Fallback for OPTIONS requests (preflight)
-app.options('*', (req, res) => {
-  res.sendStatus(204); // No content for preflight requests
-});
-
-// Test Route for tasks
-app.get("/tasks", (req, res) => {
-  res.send("TASKS NEED TO BE DONE")
+    res.json(req.user);
+    console.log(req.user)// req.user is set by Passport after login
 });
 
 const PORT = process.env.PORT || 8080;
 
+app.get("/tasks", (req, res) => {
+    res.send("TASKS NEED TO BE DONE")
+})
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });
 
