@@ -37,16 +37,12 @@ app.use((req, res, next) => {
   // If origin matches, allow it
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true'); // Moved inside origin match
   }
 
-  // Allow specific methods
+  // Always set method and headers
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-
-  // Allow headers
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-  // Allow credentials
-//   res.setHeader('Access-Control-Allow-Credentials', 'true');
 
   // Handle preflight OPTIONS requests
   if (req.method === 'OPTIONS') {
@@ -55,6 +51,7 @@ app.use((req, res, next) => {
 
   next();
 });
+
 
 
 
