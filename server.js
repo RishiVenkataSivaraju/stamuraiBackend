@@ -8,29 +8,29 @@ const initializePassport = require("./config/passportConfig");
 
 dotenv.config();  // Load environment variables
 
-const allowedOrigins = [
-  'https://stamurai-frontend-gray.vercel.app',
-  'https://stamurai-frontend-gray.vercel.app/login',
-  'https://stamurai-frontend-gray.vercel.app/register',
-  'https://stamurai-frontend-gray.vercel.app/dashboard',
-  'https://stamurai-backend.vercel.app/auth/login',
-  'https://stamurai-backend.vercel.app/auth/register',
-  'https://stamurai-backend.vercel.app/me',
-  'https://stamurai-backend.vercel.app/users',
-  'https://stamurai-backend.vercel.app/tasks',
-  'https://stamurai-backend.vercel.app/tasks/search',
-  'https://stamurai-backend.vercel.app/notifications/unread',
-  'https://stamurai-backend.vercel.app/notifications/:id/read',
-  'https://stamurai-backend.vercel.app/tasks/:id',
-];
+// const allowedOrigins = [
+//   'https://stamurai-frontend-gray.vercel.app',
+//   'https://stamurai-frontend-gray.vercel.app/login',
+//   'https://stamurai-frontend-gray.vercel.app/register',
+//   'https://stamurai-frontend-gray.vercel.app/dashboard',
+//   'https://stamurai-backend.vercel.app/auth/login',
+//   'https://stamurai-backend.vercel.app/auth/register',
+//   'https://stamurai-backend.vercel.app/me',
+//   'https://stamurai-backend.vercel.app/users',
+//   'https://stamurai-backend.vercel.app/tasks',
+//   'https://stamurai-backend.vercel.app/tasks/search',
+//   'https://stamurai-backend.vercel.app/notifications/unread',
+//   'https://stamurai-backend.vercel.app/notifications/:id/read',
+//   'https://stamurai-backend.vercel.app/tasks/:id',
+// ];
 
-// ─── CORS CONFIG ───────────────────────────────────────────────
-app.use(cors({
-  origin: allowedOrigins,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
+// // ─── CORS CONFIG ───────────────────────────────────────────────
+// app.use(cors({
+//   origin: allowedOrigins,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+//   credentials: true
+// }));
 
 // 1. MongoDB Connection
 mongoose.connect("mongodb+srv://sivarajurishi:57BDRZdE0kvk7rAT@assignment.kuwqzsp.mongodb.net/", {
