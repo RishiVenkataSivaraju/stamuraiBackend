@@ -9,8 +9,12 @@ const initializePassport = require("./config/passportConfig");
 dotenv.config();  // Load environment variables
 
 const app = express();
+const allowedOrigins = [
+    'https://stamurai-frontend-gray.vercel.app',
+    'https://stamurai-frontend-gray.vercel.app/auth/login'
+];
 app.use(cors({
-    origin: 'https://stamurai-frontend-gray.vercel.app',
+    origin: allowedOrigins,
     methods: 'GET, POST, PUT, DELETE', // Allowed HTTP methods
     allowedHeaders: 'Content-Type, Authorization', // Allowed headers
     credentials: true // Allow cookies or credentials
