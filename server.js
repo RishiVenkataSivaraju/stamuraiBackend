@@ -22,28 +22,28 @@ const app = express();
 //     credentials: true // Allow cookies or credentials
 // }));
 
-const allowedOrigins = [
-  'https://stamurai-frontend-gray.vercel.app',
-  'http://localhost:3000'
-];
+// const allowedOrigins = [
+//   'https://stamurai-frontend-gray.vercel.app',
+//   'http://localhost:3000'
+// ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like Postman) or those in the whitelist
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, origin);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     // Allow requests with no origin (like Postman) or those in the whitelist
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, origin);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+// };
 
 // ✅ Apply globally before any routes
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); 
+app.use(cors());
+// app.options('*', cors(corsOptions)); 
 
 // const corsOptions = {
 //   origin: function (origin, callback) {
