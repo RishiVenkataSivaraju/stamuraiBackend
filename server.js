@@ -28,7 +28,15 @@ const allowedOrigins = [
 ];
 
 // First, apply cors using the default way
-app.use(cors());
+const corsOptions = {
+  origin: 'https://stamurai-frontend-gray.vercel.app', // Specific allowed origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  credentials: true, // Allow credentials like cookies or sessions
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
 
 // Custom handling of headers
 // app.use((req, res, next) => {
