@@ -28,37 +28,29 @@ const allowedOrigins = [
 ];
 
 // First, apply cors using the default way
-const corsOptions = {
-  origin: '*', // Specific allowed origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-  credentials: true, // Allow credentials like cookies or sessions
-};
-
-// Apply CORS middleware
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Custom handling of headers
-// app.use((req, res, next) => {
-//   const origin = req.headers.origin;
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
-//   // If origin matches, allow it
-//   if (allowedOrigins.includes(origin)) {
-//     res.setHeader('Access-Control-Allow-Origin', origin);
-//     res.setHeader('Access-Control-Allow-Credentials', 'true'); // Moved inside origin match
-//   }
+  // If origin matches, allow it
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    // res.setHeader('Access-Control-Allow-Credentials', 'true'); // Moved inside origin match
+  }
 
-//   // Always set method and headers
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  // Always set method and headers
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-//   // Handle preflight OPTIONS requests
-//   if (req.method === 'OPTIONS') {
-//     return res.sendStatus(204); // No Content
-//   }
+  // Handle preflight OPTIONS requests
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204); // No Content
+  }
 
-//   next();
-// });
+  next();
+});
 
 
 
