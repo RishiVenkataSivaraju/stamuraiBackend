@@ -8,24 +8,18 @@ const initializePassport = require("./config/passportConfig");
 
 dotenv.config();  // Load environment variables
 
-const app = express();
-const allowedOrigins = ['https://stamurai-frontend-gray.vercel.app'];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+app.use(cors({
+  origin: true, // Reflects the request origin
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-};
+}));
 
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+// Handle preflight requests globally
+app.options('*', cors({
+  origin: true,
+  credentials: true,
+}));
 
 // 1. MongoDB Connection
 mongoose.connect("mongodb+srv://sivarajurishi:57BDRZdE0kvk7rAT@assignment.kuwqzsp.mongodb.net/", {
