@@ -36,7 +36,7 @@ const corsOptions = {
 };
 
 // Apply CORS middleware
-app.use(cors(corsOptions));
+app.use(cors(''));
 
 // Custom handling of headers
 // app.use((req, res, next) => {
