@@ -139,7 +139,7 @@ dotenv.config(); // Load environment variables
 
 const app = express();
 
-// ✅ Apply globally before any routes
+// ✅ Define allowed origins
 const allowedOrigins = [
   'https://stamurai-frontend-gray.vercel.app',
   'https://stamurai-frontend-gray.vercel.app/login',
@@ -156,23 +156,30 @@ const allowedOrigins = [
   'https://stamurai-backend.vercel.app/tasks/:id',
 ];
 
-// Set up CORS options
-const corsOptions = {
-  origin: function (origin, callback) {
-    // If the origin is in the allowed list, allow it
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // Allow cookies to be sent with the request
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
+// First, apply CORS using the default way
+app.use(cors());
 
-// Apply CORS globally
-app.use(cors(corsOptions));
+// Custom handling of headers
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+
+  // If origin matches, allow it
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true'); // Enable credentials
+  }
+
+  // Always set method and headers
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  // Handle preflight OPTIONS requests
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204); // No Content
+  }
+
+  next();
+});
 
 // 1. MongoDB Connection
 mongoose.connect("mongodb+srv://sivarajurishi:57BDRZdE0kvk7rAT@assignment.kuwqzsp.mongodb.net/", {
@@ -182,7 +189,7 @@ mongoose.connect("mongodb+srv://sivarajurishi:57BDRZdE0kvk7rAT@assignment.kuwqzs
   .then(() => console.log("🗄️  Connected to MongoDB"))
   .catch(err => {
     console.error("❌ MongoDB connection error:", err);
-    process.exit(1);  // Exit process on connection failure
+    process.exit(1); // Exit process on connection failure
   });
 
 // 2. Middlewares
@@ -245,3 +252,4 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
