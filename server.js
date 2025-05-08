@@ -11,10 +11,25 @@ dotenv.config();  // Load environment variables
 const app = express();
 
 // ✅ Apply globally before any routes
+const allowedOrigins = [
+  'https://stamurai-frontend-gray.vercel.app',
+  'https://stamurai-frontend-gray.vercel.app/login',
+  'https://stamurai-frontend-gray.vercel.app/register',
+  'https://stamurai-frontend-gray.vercel.app/dashboard',
+  'https://stamurai-backend.vercel.app/auth/login',
+  'https://stamurai-backend.vercel.app/auth/register',
+  'https://stamurai-backend.vercel.app/me',
+  'https://stamurai-backend.vercel.app/users',
+  'https://stamurai-backend.vercel.app/tasks',
+  'https://stamurai-backend.vercel.app/tasks/search',
+  'https://stamurai-backend.vercel.app/notifications/unread',
+  'https://stamurai-backend.vercel.app/notifications/:id/read',
+  'https://stamurai-backend.vercel.app/tasks/:id',
+];
 app.use(cors());
 app.use((req, res, next) => {
   //allow access from every, elminate CORS
-  res.setHeader('Access-Control-Allow-Origin','*');
+  res.setHeader('Access-Control-Allow-Origin',allowedOrigins);
   res.removeHeader('x-powered-by');
   //set the allowed HTTP methods to be requested
   res.setHeader('Access-Control-Allow-Methods','POST');
