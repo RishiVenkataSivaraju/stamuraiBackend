@@ -11,7 +11,9 @@ dotenv.config();  // Load environment variables
 const app = express();
 const allowedOrigins = [
     'https://stamurai-frontend-gray.vercel.app',
-    'https://stamurai-frontend-gray.vercel.app/auth/login'
+    'https://stamurai-frontend-gray.vercel.app/auth/login',
+    'https://stamurai-backend.vercel.app//notifications/unread',
+    'https://stamurai-backend.vercel.app//tasks'
 ];
 app.use(cors({
     origin: allowedOrigins,
