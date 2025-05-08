@@ -24,21 +24,26 @@ const app = express();
 
 const allowedOrigins = [
   'https://stamurai-frontend-gray.vercel.app',
-  'http://localhost:3000', // add dev URL if needed
+  'http://localhost:3000'
 ];
 
-app.use(cors({
+const corsOptions = {
   origin: function (origin, callback) {
+    // Allow requests with no origin (like Postman) or those in the whitelist
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, origin);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: 'GET, POST, PUT, DELETE',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
+};
+
+// ✅ Apply globally before any routes
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); 
 
 // const corsOptions = {
 //   origin: function (origin, callback) {
