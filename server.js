@@ -9,19 +9,36 @@ const initializePassport = require("./config/passportConfig");
 dotenv.config();  // Load environment variables
 
 const app = express();
-const allowedOrigins = [
-    'https://stamurai-frontend-gray.vercel.app',
-    'https://stamurai-frontend-gray.vercel.app/auth/login',
-    'https://stamurai-backend.vercel.app//notifications/unread',
-    'https://stamurai-backend.vercel.app//tasks',
-];
-app.use(cors({
-    origin: allowedOrigins,
-    methods: 'GET, POST, PUT, DELETE', // Allowed HTTP methods
-    allowedHeaders: 'Content-Type, Authorization', // Allowed headers
-    credentials: true // Allow cookies or credentials
-}));
+// const allowedOrigins = [
+//     'https://stamurai-frontend-gray.vercel.app',
+//     'https://stamurai-frontend-gray.vercel.app/auth/login',
+//     'https://stamurai-backend.vercel.app//notifications/unread',
+//     'https://stamurai-backend.vercel.app//tasks',
+// ];
+// app.use(cors({
+//     origin: allowedOrigins,
+//     methods: 'GET, POST, PUT, DELETE', // Allowed HTTP methods
+//     allowedHeaders: 'Content-Type, Authorization', // Allowed headers
+//     credentials: true // Allow cookies or credentials
+// }));
 
+const allowedOrigins = [
+  'https://stamurai-frontend-gray.vercel.app',
+  'http://localhost:3000', // add dev URL if needed
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, origin);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET, POST, PUT, DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
 // const corsOptions = {
 //   origin: function (origin, callback) {
