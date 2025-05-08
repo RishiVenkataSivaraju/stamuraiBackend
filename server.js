@@ -9,15 +9,19 @@ const initializePassport = require("./config/passportConfig");
 dotenv.config();  // Load environment variables
 
 const app = express();
+const allowedOrigins = [
+    'https://stamurai-frontend-bn3tx2ghl-rishi-sivarajus-projects.vercel.app',
+    'http://localhost:3000'
+];
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, origin);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, origin);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
 }));
 
 // 1. MongoDB Connection
