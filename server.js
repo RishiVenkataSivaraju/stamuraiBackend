@@ -9,61 +9,23 @@ const initializePassport = require("./config/passportConfig");
 dotenv.config();  // Load environment variables
 
 const app = express();
-// const allowedOrigins = [
-//     'https://stamurai-frontend-gray.vercel.app',
-//     'https://stamurai-frontend-gray.vercel.app/auth/login',
-//     'https://stamurai-backend.vercel.app//notifications/unread',
-//     'https://stamurai-backend.vercel.app//tasks',
-// ];
-// app.use(cors({
-//     origin: allowedOrigins,
-//     methods: 'GET, POST, PUT, DELETE', // Allowed HTTP methods
-//     allowedHeaders: 'Content-Type, Authorization', // Allowed headers
-//     credentials: true // Allow cookies or credentials
-// }));
+const allowedOrigins = ['https://stamurai-frontend-gray.vercel.app'];
 
-// const allowedOrigins = [
-//   'https://stamurai-frontend-gray.vercel.app',
-//   'http://localhost:3000'
-// ];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     // Allow requests with no origin (like Postman) or those in the whitelist
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, origin);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   credentials: true,
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-// };
-
-// ✅ Apply globally before any routes
-app.use(cors());
-app.use((req, res, next) => {
-  //allow access from every, elminate CORS
-  res.setHeader('Access-Control-Allow-Origin','*');
-  res.removeHeader('x-powered-by');
-  //set the allowed HTTP methods to be requested
-  res.setHeader('Access-Control-Allow-Methods','POST');
-  //headers clients can use in their requests
-  res.setHeader('Access-Control-Allow-Headers','Content-Type');
-  //allow request to continue and be handled by routes
-  next();
-});
-// app.options('*', cors(corsOptions)); 
-
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     callback(null, origin || '*'); // Accept all origins, even undefined (Postman, etc.)
-//   },
-//   credentials: true,
-// };
-
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // 1. MongoDB Connection
 mongoose.connect("mongodb+srv://sivarajurishi:57BDRZdE0kvk7rAT@assignment.kuwqzsp.mongodb.net/", {
