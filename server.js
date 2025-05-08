@@ -37,7 +37,7 @@ app.use((req, res, next) => {
   // If origin matches, allow it
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
-    // res.setHeader('Access-Control-Allow-Credentials', 'true'); // Moved inside origin match
+    res.setHeader('Access-Control-Allow-Credentials', 'true'); // Moved inside origin match
   }
 
   // Always set method and headers
