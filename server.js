@@ -29,30 +29,7 @@ const allowedOrigins = [
 
 // First, apply cors using the default way
 app.use(cors());
-
-// Custom handling of headers
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-
-  // If origin matches, allow it
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Credentials', 'true'); // Moved inside origin match
-  }
-
-  // Always set method and headers
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-  // Handle preflight OPTIONS requests
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(204); // No Content
-  }
-
-  next();
-});
-
-
+app.options('*', cors());
 
 
 // 1. MongoDB Connection
