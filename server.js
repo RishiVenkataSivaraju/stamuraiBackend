@@ -10,7 +10,7 @@ dotenv.config();  // Load environment variables
 
 const app = express();
 const allowedOrigins = [
-    'https://stamurai-frontend-bn3tx2ghl-rishi-sivarajus-projects.vercel.app',
+    'https://stamurai-frontend-jpn20q91m-rishi-sivarajus-projects.vercel.app/',
     'http://localhost:3000'
 ];
 app.use(cors({
