@@ -9,18 +9,28 @@ const initializePassport = require("./config/passportConfig");
 dotenv.config();  // Load environment variables
 
 const app = express();
-const allowedOrigins = [
-    'https://stamurai-frontend-gray.vercel.app',
-    'https://stamurai-frontend-gray.vercel.app/auth/login',
-    'https://stamurai-backend.vercel.app//notifications/unread',
-    'https://stamurai-backend.vercel.app//tasks'
-];
-app.use(cors({
-    origin: allowedOrigins,
-    methods: 'GET, POST, PUT, DELETE', // Allowed HTTP methods
-    allowedHeaders: 'Content-Type, Authorization', // Allowed headers
-    credentials: true // Allow cookies or credentials
-}));
+// const allowedOrigins = [
+//     'https://stamurai-frontend-gray.vercel.app',
+//     'https://stamurai-frontend-gray.vercel.app/auth/login',
+//     'https://stamurai-backend.vercel.app//notifications/unread',
+//     'https://stamurai-backend.vercel.app//tasks'
+// ];
+// app.use(cors({
+//     origin: allowedOrigins,
+//     methods: 'GET, POST, PUT, DELETE', // Allowed HTTP methods
+//     allowedHeaders: 'Content-Type, Authorization', // Allowed headers
+//     credentials: true // Allow cookies or credentials
+// }));
+
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    callback(null, origin); // Accept any origin
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 // 1. MongoDB Connection
 mongoose.connect("mongodb+srv://sivarajurishi:57BDRZdE0kvk7rAT@assignment.kuwqzsp.mongodb.net/", {
