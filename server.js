@@ -25,7 +25,7 @@ const app = express();
 
 const corsOptions = {
   origin: function (origin, callback) {
-    callback(null, origin); // Accept any origin
+    callback(null, origin || '*'); // Accept all origins, even undefined (Postman, etc.)
   },
   credentials: true,
 };
