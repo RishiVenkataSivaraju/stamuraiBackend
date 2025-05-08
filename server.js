@@ -10,10 +10,14 @@ dotenv.config();  // Load environment variables
 
 const app = express();
 app.use(cors({
-  origin: '*',
-  methods: 'GET, POST, PUT, DELETE', // Allowed HTTP methods
-  allowedHeaders: 'Content-Type, Authorization', // Allowed headers
-  credentials: true // Allow cookies or credentials
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, origin);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
 
 // 1. MongoDB Connection
