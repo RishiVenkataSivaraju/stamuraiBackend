@@ -8,17 +8,34 @@ const initializePassport = require("./config/passportConfig");
 
 dotenv.config();  // Load environment variables
 
-app.use(cors({
-  origin: true, // Reflects the request origin
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+const allowedOrigins = [
+  'https://stamurai-frontend-gray.vercel.app',
+  'https://stamurai-frontend-gray.vercel.app/login',
+  'https://stamurai-frontend-gray.vercel.app/register',
+  'https://stamurai-frontend-gray.vercel.app/dashboard',
+  'https://stamurai-backend.vercel.app/auth/login',
+  'https://stamurai-backend.vercel.app/auth/register',
+  'https://stamurai-backend.vercel.app/me',
+  'https://stamurai-backend.vercel.app/users',
+  'https://stamurai-backend.vercel.app/tasks',
+  'https://stamurai-backend.vercel.app/tasks/search',
+  'https://stamurai-backend.vercel.app/notifications/unread',
+  'https://stamurai-backend.vercel.app/notifications/:id/read',
+  'https://stamurai-backend.vercel.app/tasks/:id',
+];
 
-// Handle preflight requests globally
-app.options('*', cors({
-  origin: true,
-  credentials: true,
+// ─── CORS CONFIG ───────────────────────────────────────────────
+app.use(cors({
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 // 1. MongoDB Connection
